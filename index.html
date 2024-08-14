@@ -52,7 +52,8 @@
     coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" 
     shape="poly" 
     onmouseover="startHover(event)" 
-    onmouseout="stopHover()">
+    onmouseout="stopHover()" 
+    onmousemove="moveCircle(event)">
     <!-- Add more areas with different coordinates as needed -->
 </map>
 
@@ -61,13 +62,6 @@
     const hoverCircle = document.getElementById('hover-circle');
 
     function startHover(event) {
-        const container = document.querySelector('.map-container');
-        const rect = container.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        hoverCircle.style.left = (x - 50) + 'px'; // Centering the circle
-        hoverCircle.style.top = (y - 50) + 'px';
         hoverCircle.style.display = 'block';
 
         hoverCircle.style.transition = 'width 1s ease, height 1s ease';
@@ -85,6 +79,16 @@
         hoverCircle.style.display = 'none';
         hoverCircle.style.width = '0';
         hoverCircle.style.height = '0';
+    }
+
+    function moveCircle(event) {
+        const container = document.querySelector('.map-container');
+        const rect = container.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        hoverCircle.style.left = (x - 50) + 'px'; // Centering the circle
+        hoverCircle.style.top = (y - 50) + 'px';
     }
 
     function showMessage(message) {
