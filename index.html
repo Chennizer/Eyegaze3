@@ -63,9 +63,6 @@
             color: #fff;
             border: none;
             border-radius: 5px;
-            position: absolute;
-        }
-        #dwell-time-button {
             margin-top: 20px;
         }
         #dwell-time-input {
@@ -75,7 +72,7 @@
             border: 2px solid #28a745;
             text-align: center;
             width: 200px;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
         .overlay {
             position: absolute;
@@ -96,7 +93,7 @@
             max-width: 80%;
             max-height: 80%;
         }
-        #input-container {
+        #control-panel {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -107,12 +104,10 @@
 </head>
 <body>
 
-<div id="input-container">
+<div id="control-panel">
     <input id="dwell-time-input" type="number" placeholder="Enter dwell time (ms)">
-    <button id="dwell-time-button" onclick="setDwellTime()">Set Dwell Time</button>
+    <button id="start-button" onclick="startGame()">Start Game</button>
 </div>
-
-<button id="start-button" onclick="startGame()">Start Game</button>
 
 <div class="map-container" id="map-container">
     <img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
@@ -146,22 +141,18 @@
     const startButton = document.getElementById('start-button');
     const videoContainer = document.getElementById('video-container');
     const endVideo = document.getElementById('end-video');
-    const inputContainer = document.getElementById('input-container');
 
-    function setDwellTime() {
+    function startGame() {
         const dwellTimeInput = document.getElementById('dwell-time-input').value;
         if (dwellTimeInput && !isNaN(dwellTimeInput)) {
             dwellTime = parseInt(dwellTimeInput);
-            inputContainer.style.display = 'none';
-            startButton.style.display = 'block'; // Show the start button after setting dwell time
         } else {
             alert("Please enter a valid number for dwell time.");
+            return;
         }
-    }
 
-    function startGame() {
-        // Hide the start button and show the map
-        startButton.style.display = 'none';
+        // Hide the control panel and show the map
+        document.getElementById('control-panel').style.display = 'none';
         mapContainer.style.display = 'block';
         imageMapResize(); // Initialize the image map resizer
     }
