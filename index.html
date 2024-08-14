@@ -47,8 +47,8 @@
             animation: fly 5s ease-in-out forwards;
         }
         @keyframes fly {
-            0% { top: 80%; left: 0; }
-            100% { top: 10%; left: 90%; }
+            0% { top: 70%; left: 15%; }
+            100% { top: 30%; left: 85%; }
         }
         #start-button {
             font-size: 24px;
@@ -134,7 +134,7 @@
             hoverCircle.style.display = 'none';
         }, dwellTime);
     }
- 
+
     function stopHover() {
         clearTimeout(hoverTimeout);
         hoverCircle.style.display = 'none';
