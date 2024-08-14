@@ -69,6 +69,7 @@
     let dwellTime = 1000; // Default dwell time in milliseconds
     const hoverCircle = document.getElementById('hover-circle');
     const eagleAnimation = document.getElementById('eagle-animation');
+    let eagleSound;
 
     window.onload = function() {
         const userDwellTime = prompt("Please enter the dwell time in milliseconds:", "1000");
@@ -76,6 +77,9 @@
             dwellTime = parseInt(userDwellTime);
         }
         imageMapResize(); // Initialize the image map resizer
+
+        // Load the sound file
+        eagleSound = new Audio('Sounds/eagle-call.mp3');
     };
 
     function startHover(event, message) {
@@ -108,6 +112,10 @@
         hoverCircle.style.width = '20px';
         hoverCircle.style.height = '20px';
         eagleAnimation.style.display = 'none';
+        if (eagleSound) {
+            eagleSound.pause();
+            eagleSound.currentTime = 0;
+        }
     }
 
     function moveCircle(event) {
@@ -122,7 +130,6 @@
 
     function playNorthAmericaEffect() {
         eagleAnimation.style.display = 'block';
-        const eagleSound = new Audio('Sounds/eagle-call.mp3');
         eagleSound.play();
     }
 </script>
