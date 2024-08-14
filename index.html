@@ -15,6 +15,7 @@
             height: 100vh;
             position: relative;
             overflow: hidden;
+            font-family: Arial, sans-serif;
         }
         .map-container {
             position: relative;
@@ -54,7 +55,7 @@
                 transform: translate(-50%, -50%) rotate(360deg) translateX(200px) rotate(-360deg);
             }
         }
-        #start-button {
+        #start-button, #dwell-time-button {
             font-size: 24px;
             padding: 10px 20px;
             cursor: pointer;
@@ -63,6 +64,18 @@
             border: none;
             border-radius: 5px;
             position: absolute;
+        }
+        #dwell-time-button {
+            margin-top: 20px;
+        }
+        #dwell-time-input {
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #28a745;
+            text-align: center;
+            width: 200px;
+            margin-bottom: 20px;
         }
         .overlay {
             position: absolute;
@@ -83,9 +96,21 @@
             max-width: 80%;
             max-height: 80%;
         }
+        #input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
+
+<div id="input-container">
+    <input id="dwell-time-input" type="number" placeholder="Enter dwell time (ms)">
+    <button id="dwell-time-button" onclick="setDwellTime()">Set Dwell Time</button>
+</div>
 
 <button id="start-button" onclick="startGame()">Start Game</button>
 
@@ -121,16 +146,23 @@
     const startButton = document.getElementById('start-button');
     const videoContainer = document.getElementById('video-container');
     const endVideo = document.getElementById('end-video');
+    const inputContainer = document.getElementById('input-container');
+
+    function setDwellTime() {
+        const dwellTimeInput = document.getElementById('dwell-time-input').value;
+        if (dwellTimeInput && !isNaN(dwellTimeInput)) {
+            dwellTime = parseInt(dwellTimeInput);
+            inputContainer.style.display = 'none';
+            startButton.style.display = 'block'; // Show the start button after setting dwell time
+        } else {
+            alert("Please enter a valid number for dwell time.");
+        }
+    }
 
     function startGame() {
         // Hide the start button and show the map
         startButton.style.display = 'none';
         mapContainer.style.display = 'block';
-
-        const userDwellTime = prompt("Please enter the dwell time in milliseconds:", "1000");
-        if (userDwellTime && !isNaN(userDwellTime)) {
-            dwellTime = parseInt(userDwellTime);
-        }
         imageMapResize(); // Initialize the image map resizer
     }
 
