@@ -37,6 +37,7 @@
             pointer-events: none;
             display: none;
             z-index: 10;
+            transition: none; /* Disable transition initially */
         }
     </style>
 </head>
@@ -73,9 +74,19 @@
     function startHover(event) {
         moveCircle(event); // Position the circle at the start
         hoverCircle.style.display = 'block';
+        
+        // Reset circle size and transition
+        hoverCircle.style.transition = 'none';
+        hoverCircle.style.width = '20px'; // Start small
+        hoverCircle.style.height = '20px'; // Start small
+
+        // Force reflow to apply the initial size
+        hoverCircle.offsetWidth; // This is to force the browser to apply the styles before the transition
+
+        // Apply the transition and final size
         hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`;
-        hoverCircle.style.width = '100px'; // Target size
-        hoverCircle.style.height = '100px'; // Target size
+        hoverCircle.style.width = '100px'; // Target size after dwell time
+        hoverCircle.style.height = '100px'; // Target size after dwell time
 
         hoverTimeout = setTimeout(() => {
             showMessage(`You hovered over this region for ${dwellTime} milliseconds!`);
