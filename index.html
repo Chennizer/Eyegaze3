@@ -33,10 +33,20 @@
             width: 20px; /* Start small */
             height: 20px; /* Start small */
             border-radius: 50%;
-            background-color: rgba(255, 0, 0, 0.9);
+            background-color: rgba(255, 255, 255, 0.5);
             pointer-events: none;
             display: none;
             z-index: 10;
+        }
+        #eagle-animation {
+            position: absolute;
+            width: 150px;
+            display: none;
+            animation: fly 5s ease-in-out forwards;
+        }
+        @keyframes fly {
+            0% { top: 80%; left: 0; }
+            100% { top: 10%; left: 90%; }
         }
     </style>
 </head>
@@ -45,15 +55,12 @@
 <div class="map-container">
     <img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
     <div id="hover-circle" class="circle"></div>
+    <img id="eagle-animation" src="Images/eagle.png" alt="Eagle Flying">
 </div>
 
 <map name="image-map">
     <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'North America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
-    <area target="" alt="SA" title="SA" href="#" coords="437,545,450,686,528,940,583,986,650,806,712,647,644,560,522,487" shape="poly" onmouseover="startHover(event, 'South America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
-    <area target="" alt="Africa" title="Africa" href="#" coords="835,346,778,509,907,589,993,854,1161,774,1181,636,1154,582,1198,491,1064,362,949,322" shape="poly" onmouseover="startHover(event, 'Africa')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
-    <area target="" alt="EU" title="EU" href="#" coords="1273,63,983,25,818,241,834,339,912,316,1041,343,1103,297,1163,314,1236,221" shape="poly" onmouseover="startHover(event, 'Europe')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
-    <area target="" alt="Asia" title="Asia" href="#" coords="1899,137,1476,49,1271,83,1242,226,1175,316,1081,314,1085,375,1203,491,1326,535,1436,599,1521,657,1604,599" shape="poly" onmouseover="startHover(event, 'Asia')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
-    <area target="" alt="OCE" title="OCE" href="#" coords="1743,608,1617,586,1522,718,1476,752,1482,857,1561,844,1607,928,1712,976,1783,905" shape="poly" onmouseover="startHover(event, 'Oceania')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <!-- Other areas here -->
 </map>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
@@ -61,8 +68,8 @@
     let hoverTimeout;
     let dwellTime = 1000; // Default dwell time in milliseconds
     const hoverCircle = document.getElementById('hover-circle');
+    const eagleAnimation = document.getElementById('eagle-animation');
 
-    // Prompt the user for dwell time on page load
     window.onload = function() {
         const userDwellTime = prompt("Please enter the dwell time in milliseconds:", "1000");
         if (userDwellTime && !isNaN(userDwellTime)) {
@@ -72,20 +79,24 @@
     };
 
     function startHover(event, message) {
-        moveCircle(event); // Position the circle at the start
+        moveCircle(event);
         hoverCircle.style.display = 'block';
-        hoverCircle.style.transition = 'none'; // Temporarily disable transitions
-        hoverCircle.style.width = '20px'; // Reset to small size
+        hoverCircle.style.transition = 'none';
+        hoverCircle.style.width = '20px';
         hoverCircle.style.height = '20px';
-        
+
         setTimeout(() => {
-            hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`; // Enable transition
-            hoverCircle.style.width = '100px'; // Target size
-            hoverCircle.style.height = '100px'; // Target size
-        }, 0); // Trigger the transition immediately
+            hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`;
+            hoverCircle.style.width = '100px';
+            hoverCircle.style.height = '100px';
+        }, 0);
 
         hoverTimeout = setTimeout(() => {
-            showMessage(`You hovered over ${message} for ${dwellTime} milliseconds!`);
+            if (message === 'North America') {
+                playNorthAmericaEffect();
+            }
+            // Add similar checks and function calls for other regions here
+
             hoverCircle.style.display = 'none';
         }, dwellTime);
     }
@@ -93,9 +104,10 @@
     function stopHover() {
         clearTimeout(hoverTimeout);
         hoverCircle.style.display = 'none';
-        hoverCircle.style.transition = 'none'; // Reset transition
-        hoverCircle.style.width = '20px'; // Reset size
-        hoverCircle.style.height = '20px'; // Reset size
+        hoverCircle.style.transition = 'none';
+        hoverCircle.style.width = '20px';
+        hoverCircle.style.height = '20px';
+        eagleAnimation.style.display = 'none';
     }
 
     function moveCircle(event) {
@@ -104,12 +116,14 @@
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        hoverCircle.style.left = (x - hoverCircle.offsetWidth / 2) + 'px'; // Center the circle
+        hoverCircle.style.left = (x - hoverCircle.offsetWidth / 2) + 'px';
         hoverCircle.style.top = (y - hoverCircle.offsetHeight / 2) + 'px';
     }
 
-    function showMessage(message) {
-        alert(message); // Replace with other actions if needed
+    function playNorthAmericaEffect() {
+        eagleAnimation.style.display = 'block';
+        const eagleSound = new Audio('Sounds/eagle-call.mp3');
+        eagleSound.play();
     }
 </script>
 
