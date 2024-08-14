@@ -37,7 +37,6 @@
             pointer-events: none;
             display: none;
             z-index: 10;
-            transition: width 1s ease, height 1s ease; /* Smooth transition */
         }
     </style>
 </head>
@@ -65,8 +64,15 @@
     function startHover(event) {
         moveCircle(event); // Position the circle at the start
         hoverCircle.style.display = 'block';
-        hoverCircle.style.width = '100px'; // Target size after 1 second
-        hoverCircle.style.height = '100px'; // Target size after 1 second
+        hoverCircle.style.transition = 'none'; // Temporarily disable transitions
+        hoverCircle.style.width = '20px'; // Reset to small size
+        hoverCircle.style.height = '20px';
+        
+        setTimeout(() => {
+            hoverCircle.style.transition = 'width 1s ease, height 1s ease'; // Enable transition
+            hoverCircle.style.width = '100px'; // Target size after 1 second
+            hoverCircle.style.height = '100px'; // Target size after 1 second
+        }, 0); // Trigger the transition immediately
 
         hoverTimeout = setTimeout(() => {
             showMessage('You hovered over this region for 1 second!');
@@ -77,6 +83,7 @@
     function stopHover() {
         clearTimeout(hoverTimeout);
         hoverCircle.style.display = 'none';
+        hoverCircle.style.transition = 'none'; // Reset transition
         hoverCircle.style.width = '20px'; // Reset size
         hoverCircle.style.height = '20px'; // Reset size
     }
