@@ -13,18 +13,20 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
             position: relative;
+            overflow: hidden;
         }
         .map-container {
             position: relative;
+            max-width: 100%;
+            max-height: 100%;
         }
         img {
+            display: block;
             width: 100%;
             height: auto;
             max-width: 1920px;
             max-height: 998px;
-            display: block;
         }
         .circle {
             position: absolute;
@@ -59,8 +61,11 @@
     const hoverCircle = document.getElementById('hover-circle');
 
     function startHover(event) {
-        const x = event.pageX;
-        const y = event.pageY;
+        const container = document.querySelector('.map-container');
+        const rect = container.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
         hoverCircle.style.left = (x - 50) + 'px'; // Centering the circle
         hoverCircle.style.top = (y - 50) + 'px';
         hoverCircle.style.display = 'block';
