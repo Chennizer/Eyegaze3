@@ -29,6 +29,16 @@
             max-width: 1920px;
             max-height: 998px;
         }
+        .circle {
+            position: absolute;
+            width: 20px; /* Start small */
+            height: 20px; /* Start small */
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
         #eagle-animation {
             position: absolute;
             width: 300px; /* Increased size */
@@ -67,7 +77,7 @@
 <button id="start-button" onclick="startGame()">Start Game</button>
 
 <div class="map-container" id="map-container">
-    <img src="Images/worldmap.jpg" alt="World Map">
+    <img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
     <div id="hover-circle" class="circle"></div>
 </div>
 
@@ -75,14 +85,89 @@
 
 <img id="eagle-animation" src="Images/eagle.png" alt="Eagle Flying">
 
-<script>
-    function startGame() {
-        const startButton = document.getElementById('start-button');
-        const mapContainer = document.getElementById('map-container');
+<map name="image-map">
+    <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'North America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <!-- Other areas here -->
+</map>
 
-        // Hide the start button and show the map container
+<script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
+<script>
+    let hoverTimeout;
+    let dwellTime = 1000; // Default dwell time in milliseconds
+    const hoverCircle = document.getElementById('hover-circle');
+    const eagleAnimation = document.getElementById('eagle-animation');
+    const mapContainer = document.getElementById('map-container');
+    const overlay = document.getElementById('overlay');
+    const startButton = document.getElementById('start-button');
+
+    function startGame() {
+        // Hide the start button and show the map
         startButton.style.display = 'none';
         mapContainer.style.display = 'block';
+
+        const userDwellTime = prompt("Please enter the dwell time in milliseconds:", "1000");
+        if (userDwellTime && !isNaN(userDwellTime)) {
+            dwellTime = parseInt(userDwellTime);
+        }
+        imageMapResize(); // Initialize the image map resizer
+    }
+
+    function startHover(event, message) {
+        moveCircle(event);
+        hoverCircle.style.display = 'block';
+        hoverCircle.style.transition = 'none';
+        hoverCircle.style.width = '20px';
+        hoverCircle.style.height = '20px';
+
+        setTimeout(() => {
+            hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`;
+            hoverCircle.style.width = '100px';
+            hoverCircle.style.height = '100px';
+        }, 0);
+
+        hoverTimeout = setTimeout(() => {
+            if (message === 'North America') {
+                playNorthAmericaEffect();
+            }
+            // Add similar checks and function calls for other regions here
+
+            hoverCircle.style.display = 'none';
+        }, dwellTime);
+    }
+
+    function stopHover() {
+        clearTimeout(hoverTimeout);
+        hoverCircle.style.display = 'none';
+        hoverCircle.style.transition = 'none';
+        hoverCircle.style.width = '20px';
+        hoverCircle.style.height = '20px';
+    }
+
+    function moveCircle(event) {
+        const container = document.querySelector('.map-container');
+        const rect = container.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        hoverCircle.style.left = (x - hoverCircle.offsetWidth / 2) + 'px';
+        hoverCircle.style.top = (y - hoverCircle.offsetHeight / 2) + 'px';
+    }
+
+    function playNorthAmericaEffect() {
+        // Show the black background and hide the map
+        overlay.style.display = 'block';
+        mapContainer.style.display = 'none';
+        
+        eagleAnimation.style.display = 'block';
+        eagleAnimation.style.animation = 'fly 5s ease-in-out forwards';
+        const eagleSound = new Audio('Sounds/eagle-call.mp3');
+        eagleSound.play();
+
+        eagleSound.onended = () => {
+            eagleAnimation.style.display = 'none';
+            overlay.style.display = 'none'; // Hide the black background after animation
+            mapContainer.style.display = 'block';
+        };
     }
 </script>
 
