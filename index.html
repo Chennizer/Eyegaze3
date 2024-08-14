@@ -20,6 +20,7 @@
             position: relative;
             max-width: 100%;
             max-height: 100%;
+            display: none; /* Hidden until the game starts */
         }
         img {
             display: block;
@@ -48,9 +49,21 @@
             0% { top: 80%; left: 0; }
             100% { top: 10%; left: 90%; }
         }
+        #start-button {
+            font-size: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            position: absolute;
+        }
     </style>
 </head>
 <body>
+
+<button id="start-button" onclick="startGame()">Start Game</button>
 
 <div class="map-container">
     <img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
@@ -69,14 +82,20 @@
     let dwellTime = 1000; // Default dwell time in milliseconds
     const hoverCircle = document.getElementById('hover-circle');
     const eagleAnimation = document.getElementById('eagle-animation');
+    const mapContainer = document.querySelector('.map-container');
+    const startButton = document.getElementById('start-button');
 
-    window.onload = function() {
+    function startGame() {
+        // Hide the start button and show the map
+        startButton.style.display = 'none';
+        mapContainer.style.display = 'block';
+
         const userDwellTime = prompt("Please enter the dwell time in milliseconds:", "1000");
         if (userDwellTime && !isNaN(userDwellTime)) {
             dwellTime = parseInt(userDwellTime);
         }
         imageMapResize(); // Initialize the image map resizer
-    };
+    }
 
     function startHover(event, message) {
         moveCircle(event);
