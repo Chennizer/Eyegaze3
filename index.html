@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive World Map</title>
+    <title>Interactive World Map with Growing Circle Effect</title>
     <style>
         body {
             margin: 0;
@@ -14,6 +14,7 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            position: relative;
         }
         img {
             width: 100%;
@@ -21,32 +22,155 @@
             max-width: 1920px;
             max-height: 998px;
         }
+        .circle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
 
-<img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map" id="responsive-image">
+<img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
+
+<div id="hover-circle" class="circle"></div>
 
 <map name="image-map">
     <area target="" alt="Clickable Area" title="Clickable Area" href="#" 
     coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" 
     shape="poly" 
-    onmouseover="showMessage('You hovered over this region!')" 
-    onmouseout="hideMessage()">
+    onmouseover="startHover(event)" 
+    onmouseout="stopHover()">
     <!-- Add more areas with different coordinates as needed -->
 </map>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
 <script>
-    // Initialize image map resizer
-    imageMapResize();
+    let hoverTimeout;
+    const hoverCircle = document.getElementById('hover-circle');
 
-    function showMessage(message) {
-        alert(message); // Simple alert for now, can be replaced with more interactive elements
+    function startHover(event) {
+        // Position the circle at the mouse pointer
+        const x = event.pageX;
+        const y = event.pageY;
+        hoverCircle.style.left = (x - 50) + 'px'; // Centering the circle
+        hoverCircle.style.top = (y - 50) + 'px';
+        hoverCircle.style.display = 'block';
+
+        // Animate the circle growth
+        hoverCircle.style.transition = 'width 1s ease, height 1s ease';
+        hoverCircle.style.width = '100px';
+        hoverCircle.style.height = '100px';
+
+        // Set a timeout for the event after 1 second
+        hoverTimeout = setTimeout(() => {
+            showMessage('You hovered over this region for 1 second!');
+            hoverCircle.style.display = 'none'; // Hide the circle after the event
+        }, 1000);
     }
 
-    function hideMessage() {
-        // Code to handle when the user stops hovering (optional)
+    function stopHover() {
+        clearTimeout(hoverTimeout); // Cancel the action if the mouse leaves before 1 second
+        hoverCircle.style.display = 'none'; // Hide the circle
+        hoverCircle.style.width = '0'; // Reset the circle size
+        hoverCircle.style.height = '0';
+    }
+
+    function showMessage(message) {
+        alert(message); // Replace with other actions if needed
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive World Map with Growing Circle Effect</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 1920px;
+            max-height: 998px;
+        }
+        .circle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
+
+<div id="hover-circle" class="circle"></div>
+
+<map name="image-map">
+    <area target="" alt="Clickable Area" title="Clickable Area" href="#" 
+    coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" 
+    shape="poly" 
+    onmouseover="startHover(event)" 
+    onmouseout="stopHover()">
+    <!-- Add more areas with different coordinates as needed -->
+</map>
+
+<script>
+    let hoverTimeout;
+    const hoverCircle = document.getElementById('hover-circle');
+
+    function startHover(event) {
+        // Position the circle at the mouse pointer
+        const x = event.pageX;
+        const y = event.pageY;
+        hoverCircle.style.left = (x - 50) + 'px'; // Centering the circle
+        hoverCircle.style.top = (y - 50) + 'px';
+        hoverCircle.style.display = 'block';
+
+        // Animate the circle growth
+        hoverCircle.style.transition = 'width 1s ease, height 1s ease';
+        hoverCircle.style.width = '100px';
+        hoverCircle.style.height = '100px';
+
+        // Set a timeout for the event after 1 second
+        hoverTimeout = setTimeout(() => {
+            showMessage('You hovered over this region for 1 second!');
+            hoverCircle.style.display = 'none'; // Hide the circle after the event
+        }, 1000);
+    }
+
+    function stopHover() {
+        clearTimeout(hoverTimeout); // Cancel the action if the mouse leaves before 1 second
+        hoverCircle.style.display = 'none'; // Hide the circle
+        hoverCircle.style.width = '0'; // Reset the circle size
+        hoverCircle.style.height = '0';
+    }
+
+    function showMessage(message) {
+        alert(message); // Replace with other actions if needed
     }
 </script>
 
