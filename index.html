@@ -43,6 +43,7 @@
             position: absolute;
             width: 150px;
             display: none;
+            z-index: 20;
             animation: fly 5s ease-in-out forwards;
         }
         @keyframes fly {
@@ -59,17 +60,30 @@
             border-radius: 5px;
             position: absolute;
         }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: none;
+            z-index: 15;
+        }
     </style>
 </head>
 <body>
 
 <button id="start-button" onclick="startGame()">Start Game</button>
 
-<div class="map-container">
+<div class="map-container" id="map-container">
     <img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
     <div id="hover-circle" class="circle"></div>
-    <img id="eagle-animation" src="Images/eagle.png" alt="Eagle Flying">
 </div>
+
+<div class="overlay" id="overlay"></div>
+
+<img id="eagle-animation" src="Images/eagle.png" alt="Eagle Flying">
 
 <map name="image-map">
     <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'North America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
@@ -82,7 +96,8 @@
     let dwellTime = 1000; // Default dwell time in milliseconds
     const hoverCircle = document.getElementById('hover-circle');
     const eagleAnimation = document.getElementById('eagle-animation');
-    const mapContainer = document.querySelector('.map-container');
+    const mapContainer = document.getElementById('map-container');
+    const overlay = document.getElementById('overlay');
     const startButton = document.getElementById('start-button');
 
     function startGame() {
@@ -126,7 +141,6 @@
         hoverCircle.style.transition = 'none';
         hoverCircle.style.width = '20px';
         hoverCircle.style.height = '20px';
-        eagleAnimation.style.display = 'none';
     }
 
     function moveCircle(event) {
@@ -140,9 +154,20 @@
     }
 
     function playNorthAmericaEffect() {
+        // Show the black background and hide the map
+        overlay.style.display = 'block';
+        mapContainer.style.display = 'none';
+        
         eagleAnimation.style.display = 'block';
+        eagleAnimation.style.animation = 'fly 5s ease-in-out forwards';
         const eagleSound = new Audio('Sounds/eagle-call.mp3');
         eagleSound.play();
+
+        eagleSound.onended = () => {
+            eagleAnimation.style.display = 'none';
+            overlay.style.display = 'none'; // Hide the black background after animation
+            mapContainer.style.display = 'block';
+        };
     }
 </script>
 
