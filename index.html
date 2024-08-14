@@ -151,8 +151,6 @@
             if (message === 'North America') {
                 playNorthAmericaEffect();
             }
-            // Add similar checks and function calls for other regions here
-
             hoverCircle.style.display = 'none';
         }, dwellTime);
     }
@@ -196,19 +194,17 @@
         endVideo.play(); // Play the video
 
         endVideo.onended = () => {
-            resetToInitialState(); // Reset after video ends
+            resetToMapState(); // Reset after video ends
         };
     }
 
-    function resetToInitialState() {
-        // Hide video and overlay, show map and start button
+    function resetToMapState() {
+        // Hide video and overlay, show map again
         videoContainer.style.display = 'none';
         overlay.style.display = 'none';
-        mapContainer.style.display = 'none';
-        startButton.style.display = 'block'; // Show start button for next playthrough
+        mapContainer.style.display = 'block'; // Show map for next interaction
     }
 </script>
 
 </body>
 </html>
- 
