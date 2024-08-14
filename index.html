@@ -60,6 +60,7 @@
 
 <script>
     let hoverTimeout;
+    let positionInterval;
     let dwellTime = 1000; // Default dwell time in milliseconds
     const hoverCircle = document.getElementById('hover-circle');
 
@@ -74,7 +75,7 @@
     function startHover(event) {
         moveCircle(event); // Position the circle at the start
         hoverCircle.style.display = 'block';
-        
+
         // Reset circle size and transition
         hoverCircle.style.transition = 'none';
         hoverCircle.style.width = '20px'; // Start small
@@ -88,7 +89,11 @@
         hoverCircle.style.width = '100px'; // Target size after dwell time
         hoverCircle.style.height = '100px'; // Target size after dwell time
 
+        // Update the circle's position every 10ms to keep it centered on the cursor
+        positionInterval = setInterval(() => moveCircle(event), 10);
+
         hoverTimeout = setTimeout(() => {
+            clearInterval(positionInterval);
             showMessage(`You hovered over this region for ${dwellTime} milliseconds!`);
             hoverCircle.style.display = 'none';
         }, dwellTime);
@@ -96,6 +101,7 @@
 
     function stopHover() {
         clearTimeout(hoverTimeout);
+        clearInterval(positionInterval);
         hoverCircle.style.display = 'none';
         hoverCircle.style.transition = 'none'; // Reset transition
         hoverCircle.style.width = '20px'; // Reset size
