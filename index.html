@@ -100,7 +100,7 @@
 
 <div id="video-container">
     <video id="end-video" controls>
-        <source src="Videos/north-america.mp4" type="video/mp4">
+        <source src="Videos/short-video.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 </div>
@@ -187,8 +187,6 @@
 
         eagleSound.onended = () => {
             eagleAnimation.style.display = 'none';
-            overlay.style.display = 'none'; // Hide the black background after animation
-            mapContainer.style.display = 'block';
             playVideo(); // Play video after animation ends
         };
     }
@@ -196,6 +194,18 @@
     function playVideo() {
         videoContainer.style.display = 'block'; // Show the video container
         endVideo.play(); // Play the video
+
+        endVideo.onended = () => {
+            resetToInitialState(); // Reset after video ends
+        };
+    }
+
+    function resetToInitialState() {
+        // Hide video and overlay, show map and start button
+        videoContainer.style.display = 'none';
+        overlay.style.display = 'none';
+        mapContainer.style.display = 'none';
+        startButton.style.display = 'block'; // Show start button for next playthrough
     }
 </script>
 
