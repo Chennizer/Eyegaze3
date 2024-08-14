@@ -30,13 +30,14 @@
         }
         .circle {
             position: absolute;
-            width: 0;
-            height: 0;
+            width: 20px; /* Start small */
+            height: 20px; /* Start small */
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.5);
             pointer-events: none;
             display: none;
             z-index: 10;
+            transition: width 1s ease, height 1s ease; /* Smooth transition */
         }
     </style>
 </head>
@@ -62,11 +63,10 @@
     const hoverCircle = document.getElementById('hover-circle');
 
     function startHover(event) {
+        moveCircle(event); // Position the circle at the start
         hoverCircle.style.display = 'block';
-
-        hoverCircle.style.transition = 'width 1s ease, height 1s ease';
-        hoverCircle.style.width = '100px';
-        hoverCircle.style.height = '100px';
+        hoverCircle.style.width = '100px'; // Target size after 1 second
+        hoverCircle.style.height = '100px'; // Target size after 1 second
 
         hoverTimeout = setTimeout(() => {
             showMessage('You hovered over this region for 1 second!');
@@ -77,8 +77,8 @@
     function stopHover() {
         clearTimeout(hoverTimeout);
         hoverCircle.style.display = 'none';
-        hoverCircle.style.width = '0';
-        hoverCircle.style.height = '0';
+        hoverCircle.style.width = '20px'; // Reset size
+        hoverCircle.style.height = '20px'; // Reset size
     }
 
     function moveCircle(event) {
@@ -87,8 +87,8 @@
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        hoverCircle.style.left = (x - 50) + 'px'; // Centering the circle
-        hoverCircle.style.top = (y - 50) + 'px';
+        hoverCircle.style.left = (x - hoverCircle.offsetWidth / 2) + 'px'; // Center the circle
+        hoverCircle.style.top = (y - hoverCircle.offsetHeight / 2) + 'px';
     }
 
     function showMessage(message) {
