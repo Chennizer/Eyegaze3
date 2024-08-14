@@ -44,11 +44,15 @@
             width: 300px; /* Increased size */
             display: none;
             z-index: 20;
-            animation: fly 5s ease-in-out forwards;
+            animation: fly 5s linear infinite;
         }
         @keyframes fly {
-            0% { top: 70%; left: 15%; }
-            100% { top: 30%; left: 85%; }
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) translateX(200px) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg) translateX(200px) rotate(-360deg);
+            }
         }
         #start-button {
             font-size: 24px;
@@ -159,7 +163,7 @@
         mapContainer.style.display = 'none';
         
         eagleAnimation.style.display = 'block';
-        eagleAnimation.style.animation = 'fly 5s ease-in-out forwards';
+        eagleAnimation.style.animation = 'fly 5s linear infinite';
         const eagleSound = new Audio('Sounds/eagle-call.mp3');
         eagleSound.play();
 
