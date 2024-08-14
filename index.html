@@ -41,7 +41,7 @@
         }
         #eagle-animation {
             position: absolute;
-            width: 150px;
+            width: 300px; /* Increased size */
             display: none;
             z-index: 20;
             animation: fly 5s ease-in-out forwards;
@@ -159,17 +159,4 @@
         mapContainer.style.display = 'none';
         
         eagleAnimation.style.display = 'block';
-        eagleAnimation.style.animation = 'fly 5s ease-in-out forwards';
-        const eagleSound = new Audio('Sounds/eagle-call.mp3');
-        eagleSound.play();
-
-        eagleSound.onended = () => {
-            eagleAnimation.style.display = 'none';
-            overlay.style.display = 'none'; // Hide the black background after animation
-            mapContainer.style.display = 'block';
-        };
-    }
-</script>
-
-</body>
-</html>
+        eagleAnimation.style.animation = 'f
