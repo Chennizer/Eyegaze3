@@ -53,6 +53,7 @@
     <area target="" alt="OCE" title="OCE" href="#" coords="1490,857,1619,942,1721,971,1794,883,1738,604,1597,582,1456,755" shape="poly" onmouseover="startHover(event, 'Oceania')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
 </map>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
 <script>
     let hoverTimeout;
     let dwellTime = 1000; // Default dwell time in milliseconds
@@ -64,6 +65,7 @@
         if (userDwellTime && !isNaN(userDwellTime)) {
             dwellTime = parseInt(userDwellTime);
         }
+        imageMapResize(); // Initialize the image map resizer
     };
 
     function startHover(event, message) {
