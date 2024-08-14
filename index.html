@@ -74,6 +74,15 @@
             display: none;
             z-index: 15;
         }
+        #video-container {
+            display: none; /* Hidden until the eagle animation ends */
+            position: absolute;
+            z-index: 25;
+        }
+        video {
+            max-width: 80%;
+            max-height: 80%;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +98,13 @@
 
 <img id="eagle-animation" src="Images/eagle.png" alt="Eagle Flying">
 
+<div id="video-container">
+    <video id="end-video" controls>
+        <source src="Videos/north-america.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
 <map name="image-map">
     <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'North America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
     <!-- Other areas here -->
@@ -103,6 +119,8 @@
     const mapContainer = document.getElementById('map-container');
     const overlay = document.getElementById('overlay');
     const startButton = document.getElementById('start-button');
+    const videoContainer = document.getElementById('video-container');
+    const endVideo = document.getElementById('end-video');
 
     function startGame() {
         // Hide the start button and show the map
@@ -171,7 +189,13 @@
             eagleAnimation.style.display = 'none';
             overlay.style.display = 'none'; // Hide the black background after animation
             mapContainer.style.display = 'block';
+            playVideo(); // Play video after animation ends
         };
+    }
+
+    function playVideo() {
+        videoContainer.style.display = 'block'; // Show the video container
+        endVideo.play(); // Play the video
     }
 </script>
 
