@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-Screen Image</title>
+    <title>Interactive World Map</title>
     <style>
         body {
             margin: 0;
@@ -12,18 +12,37 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #000; /* Black background to frame the image */
+            background-color: #000;
         }
         img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures the image covers the entire screen */
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
 
-<img src="Images/worldmap.jpg" alt="World Map">
+<img src="your-image.png" usemap="#image-map" alt="World Map">
+
+<map name="image-map">
+    <area target="" alt="Clickable Area" title="Clickable Area" href="#" 
+    coords="1124,1399,660,1076,426,550,81,577,210,325,598,294,1128,73,2166,78,1340,802,1473,842,1566,705,1301,879" 
+    shape="poly" 
+    onmouseover="showMessage('You hovered over this region!')" 
+    onmouseout="hideMessage()">
+    <!-- Add more areas with different coordinates as needed -->
+</map>
+
+<script>
+    function showMessage(message) {
+        alert(message); // Simple alert for now, can be replaced with more interactive elements
+    }
+
+    function hideMessage() {
+        // Code to handle when the user stops hovering (optional)
+    }
+</script>
 
 </body>
 </html>
