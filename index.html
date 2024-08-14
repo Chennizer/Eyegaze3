@@ -37,7 +37,6 @@
             pointer-events: none;
             display: none;
             z-index: 10;
-            transition: width 1s ease, height 1s ease;
         }
     </style>
 </head>
@@ -74,10 +73,9 @@
     function startHover(event) {
         moveCircle(event); // Position the circle at the start
         hoverCircle.style.display = 'block';
-
         hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`;
-        hoverCircle.style.width = '100px'; // Target size after dwell time
-        hoverCircle.style.height = '100px'; // Target size after dwell time
+        hoverCircle.style.width = '100px'; // Target size
+        hoverCircle.style.height = '100px'; // Target size
 
         hoverTimeout = setTimeout(() => {
             showMessage(`You hovered over this region for ${dwellTime} milliseconds!`);
@@ -101,6 +99,10 @@
 
         hoverCircle.style.left = (x - hoverCircle.offsetWidth / 2) + 'px'; // Center the circle
         hoverCircle.style.top = (y - hoverCircle.offsetHeight / 2) + 'px';
+    }
+
+    function showMessage(message) {
+        alert(message); // Replace with other actions if needed
     }
 </script>
 
