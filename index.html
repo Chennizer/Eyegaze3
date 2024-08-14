@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive World Map with Growing Circle Effect</title>
+    <title>Interactive World Map with Adjustable Dwell Time</title>
     <style>
         body {
             margin: 0;
@@ -33,7 +33,7 @@
             width: 20px; /* Start small */
             height: 20px; /* Start small */
             border-radius: 50%;
-            background-color: rgba(255, 0, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.5);
             pointer-events: none;
             display: none;
             z-index: 10;
@@ -59,7 +59,16 @@
 
 <script>
     let hoverTimeout;
+    let dwellTime = 1000; // Default dwell time in milliseconds
     const hoverCircle = document.getElementById('hover-circle');
+
+    // Prompt the user for dwell time on page load
+    window.onload = function() {
+        const userDwellTime = prompt("Please enter the dwell time in milliseconds:", "1000");
+        if (userDwellTime && !isNaN(userDwellTime)) {
+            dwellTime = parseInt(userDwellTime);
+        }
+    };
 
     function startHover(event) {
         moveCircle(event); // Position the circle at the start
@@ -69,15 +78,15 @@
         hoverCircle.style.height = '20px';
         
         setTimeout(() => {
-            hoverCircle.style.transition = 'width 1s ease, height 1s ease'; // Enable transition
-            hoverCircle.style.width = '100px'; // Target size after 1 second
-            hoverCircle.style.height = '100px'; // Target size after 1 second
+            hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`; // Enable transition
+            hoverCircle.style.width = '100px'; // Target size
+            hoverCircle.style.height = '100px'; // Target size
         }, 0); // Trigger the transition immediately
 
         hoverTimeout = setTimeout(() => {
-            showMessage('You hovered over this region for 1 second!');
+            showMessage(`You hovered over this region for ${dwellTime} milliseconds!`);
             hoverCircle.style.display = 'none';
-        }, 1000);
+        }, dwellTime);
     }
 
     function stopHover() {
