@@ -130,14 +130,15 @@
 
 <div id="video-container">
     <video id="end-video" controls>
-        <source src="Videos/north-america.mp4" type="video/mp4">
+        <source id="video-source" src="" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 </div>
 
 <map name="image-map">
-    <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'North America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
-    <!-- Other areas here -->
+    <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'north-america')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <area target="" alt="SA" title="SA" href="#" coords="500,800,420,750,350,700,300,650" shape="poly" onmouseover="startHover(event, 'south-america')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <!-- Add more areas for other continents with their respective coordinates and IDs -->
 </map>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
@@ -151,6 +152,21 @@
     const startButton = document.getElementById('start-button');
     const videoContainer = document.getElementById('video-container');
     const endVideo = document.getElementById('end-video');
+    const videoSource = document.getElementById('video-source');
+
+    const continentEffects = {
+        'north-america': {
+            sound: 'Sounds/eagle-call.mp3',
+            animation: 'fly 5s linear infinite',
+            video: 'Videos/north-america.mp4'
+        },
+        'south-america': {
+            sound: 'Sounds/another-sound.mp3',
+            animation: 'fly 5s linear infinite', // Replace with actual animation
+            video: 'Videos/south-america.mp4'
+        },
+        // Add more effects for other continents
+    };
 
     function startGame() {
         const dwellTimeInput = document.getElementById('dwell-time-input').value;
@@ -167,7 +183,7 @@
         imageMapResize(); // Initialize the image map resizer
     }
 
-    function startHover(event, message) {
+    function startHover(event, continent) {
         moveCircle(event);
         hoverCircle.style.display = 'block';
         hoverCircle.style.transition = 'none';
@@ -181,9 +197,7 @@
         }, 0);
 
         hoverTimeout = setTimeout(() => {
-            if (message === 'North America') {
-                playNorthAmericaEffect();
-            }
+            playEffect(continent);
             hoverCircle.style.display = 'none';
         }, dwellTime);
     }
@@ -206,24 +220,29 @@
         hoverCircle.style.top = (y - hoverCircle.offsetHeight / 2) + 'px';
     }
 
-    function playNorthAmericaEffect() {
+    function playEffect(continent) {
+        const effect = continentEffects[continent];
+        if (!effect) return;
+
         // Show the black background and hide the map
         overlay.style.display = 'block';
         mapContainer.style.display = 'none';
-        
-        eagleAnimation.style.display = 'block';
-        eagleAnimation.style.animation = 'fly 5s linear infinite';
-        const eagleSound = new Audio('Sounds/eagle-call.mp3');
-        eagleSound.play();
 
-        eagleSound.onended = () => {
+        eagleAnimation.style.display = 'block';
+        eagleAnimation.style.animation = effect.animation;
+        const sound = new Audio(effect.sound);
+        sound.play();
+
+        sound.onended = () => {
             eagleAnimation.style.display = 'none';
-            playVideo(); // Play video after animation ends
+            playVideo(effect.video); // Play video after animation ends
         };
     }
 
-    function playVideo() {
+    function playVideo(videoSrc) {
+        videoSource.src = videoSrc;
         videoContainer.style.display = 'block'; // Show the video container
+        endVideo.load(); // Load the new video source
         endVideo.play(); // Play the video
 
         endVideo.onended = () => {
