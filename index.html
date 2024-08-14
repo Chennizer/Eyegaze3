@@ -41,14 +41,12 @@
         }
         #eagle-animation {
             position: absolute;
+            top: 80%; /* Starting position */
+            left: 0;  /* Starting position */
             width: 150px;
             display: none;
-            animation: fly 5s ease-in-out forwards;
             z-index: 20;
-        }
-        @keyframes fly {
-            0% { top: 80%; left: 0; }
-            100% { top: 10%; left: 90%; }
+            transition: all 5s ease-in-out;
         }
         #start-button {
             font-size: 24px;
@@ -145,6 +143,8 @@
     function playNorthAmericaEffect() {
         mapContainer.style.display = 'none'; // Hide the map
         eagleAnimation.style.display = 'block'; // Show the animation
+        eagleAnimation.style.top = '10%'; // Move the eagle to its final position
+        eagleAnimation.style.left = '90%'; // Move the eagle to its final position
         const eagleSound = new Audio('Sounds/eagle-call.mp3');
         eagleSound.play();
 
@@ -152,6 +152,9 @@
         eagleSound.onended = () => {
             eagleAnimation.style.display = 'none';
             mapContainer.style.display = 'block';
+            // Reset eagle position for next animation
+            eagleAnimation.style.top = '80%';
+            eagleAnimation.style.left = '0';
         };
     }
 </script>
