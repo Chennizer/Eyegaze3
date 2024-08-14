@@ -48,13 +48,9 @@
 </div>
 
 <map name="image-map">
-    <area target="" alt="Clickable Area" title="Clickable Area" href="#" 
-    coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" 
-    shape="poly" 
-    onmouseover="startHover(event)" 
-    onmouseout="stopHover()" 
-    onmousemove="moveCircle(event)">
-    <!-- Add more areas with different coordinates as needed -->
+    <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'North America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <area target="" alt="SA" title="SA" href="#" coords="437,545,450,686,528,940,583,986,650,806,712,647,644,560,522,487" shape="poly" onmouseover="startHover(event, 'South America')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <area target="" alt="OCE" title="OCE" href="#" coords="1490,857,1619,942,1721,971,1794,883,1738,604,1597,582,1456,755" shape="poly" onmouseover="startHover(event, 'Oceania')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
 </map>
 
 <script>
@@ -70,7 +66,7 @@
         }
     };
 
-    function startHover(event) {
+    function startHover(event, message) {
         moveCircle(event); // Position the circle at the start
         hoverCircle.style.display = 'block';
         hoverCircle.style.transition = 'none'; // Temporarily disable transitions
@@ -84,7 +80,7 @@
         }, 0); // Trigger the transition immediately
 
         hoverTimeout = setTimeout(() => {
-            showMessage(`You hovered over this region for ${dwellTime} milliseconds!`);
+            showMessage(`You hovered over ${message} for ${dwellTime} milliseconds!`);
             hoverCircle.style.display = 'none';
         }, dwellTime);
     }
