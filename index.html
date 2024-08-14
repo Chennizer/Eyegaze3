@@ -13,18 +13,19 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
         }
         img {
-            max-width: 100%;
-            max-height: 100%;
-            width: 1920px; /* Fixed width */
-            height: 998px; /* Fixed height */
+            width: 100%;
+            height: auto;
+            max-width: 1920px;
+            max-height: 998px;
         }
     </style>
 </head>
 <body>
 
-<img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
+<img src="worldmap.jpg" usemap="#image-map" alt="World Map" id="responsive-image">
 
 <map name="image-map">
     <area target="" alt="Clickable Area" title="Clickable Area" href="#" 
@@ -35,7 +36,11 @@
     <!-- Add more areas with different coordinates as needed -->
 </map>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
 <script>
+    // Initialize image map resizer
+    imageMapResize();
+
     function showMessage(message) {
         alert(message); // Simple alert for now, can be replaced with more interactive elements
     }
