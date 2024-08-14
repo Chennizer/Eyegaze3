@@ -114,8 +114,9 @@
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        hoverCircle.style.left = (x - hoverCircle.offsetWidth / 2) + 'px'; // Center the circle
-        hoverCircle.style.top = (y - hoverCircle.offsetHeight / 2) + 'px';
+        // Update the circle position to center it on the cursor
+        hoverCircle.style.left = (x - parseFloat(hoverCircle.style.width) / 2) + 'px';
+        hoverCircle.style.top = (y - parseFloat(hoverCircle.style.height) / 2) + 'px';
     }
 
     function showMessage(message) {
