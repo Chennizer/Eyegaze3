@@ -99,12 +99,16 @@
             z-index: 15;
         }
         #video-container {
-            display: none; /* Hidden until the animation ends */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center;
+            align-items: center;
             position: absolute;
             z-index: 25;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
+            width: 100%; /* Full width to allow for flex centering */
+            height: 100%; /* Full height to allow for flex centering */
         }
         video {
             max-width: 80%;
@@ -187,31 +191,31 @@
             sound: 'Sounds/south-america-sound.mp3',
             animation: 'bounce 2s infinite', // Example bounce animation
             video: 'Videos/south-america.mp4',
-            image: 'Images/south-america-icon.png' // Example image for animation
+            image: 'Images/south-america-image.png' // Example image for animation
         },
         'africa': {
             sound: 'Sounds/africa-sound.mp3',
             animation: 'bounce 2s infinite', // Replace with actual animation
             video: 'Videos/africa.mp4',
-            image: 'Images/africa-icon.png' // Example image for animation
+            image: 'Images/africa-image.png' // Example image for animation
         },
         'europe': {
             sound: 'Sounds/europe-sound.mp3',
             animation: 'fly 5s linear infinite', // Replace with actual animation
             video: 'Videos/europe.mp4',
-            image: 'Images/europe-icon.png' // Example image for animation
+            image: 'Images/europe-image.png' // Example image for animation
         },
         'asia': {
             sound: 'Sounds/asia-sound.mp3',
             animation: 'fly 5s linear infinite', // Replace with actual animation
             video: 'Videos/asia.mp4',
-            image: 'Images/asia-icon.png' // Example image for animation
+            image: 'Images/asia-image.png' // Example image for animation
         },
         'oceania': {
             sound: 'Sounds/oceania-sound.mp3',
             animation: 'bounce 2s infinite', // Replace with actual animation
             video: 'Videos/oceania.mp4',
-            image: 'Images/oceania-icon.png' // Example image for animation
+            image: 'Images/oceania-image.png' // Example image for animation
         }
     };
 
@@ -291,7 +295,7 @@
 
     function playVideo(videoSrc) {
         videoSource.src = videoSrc;
-        videoContainer.style.display = 'block'; // Show the video container
+        videoContainer.style.display = 'flex'; // Show the video container
         endVideo.load(); // Load the new video source
         endVideo.play(); // Play the video
 
