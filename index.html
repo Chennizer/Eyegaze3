@@ -99,16 +99,14 @@
             z-index: 15;
         }
         #video-container {
-            display: flex; /* Use flexbox for centering */
-            justify-content: center;
-            align-items: center;
+            display: none; /* Hidden until the animation ends */
             position: absolute;
             z-index: 25;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            width: 100%; /* Full width to allow for flex centering */
-            height: 100%; /* Full height to allow for flex centering */
+            justify-content: center;
+            align-items: center;
         }
         video {
             max-width: 80%;
