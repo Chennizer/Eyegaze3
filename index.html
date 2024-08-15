@@ -102,9 +102,12 @@
             display: none; /* Hidden until the animation ends */
             position: absolute;
             z-index: 25;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            text-align: center;
         }
         video {
             max-width: 80%;
@@ -238,7 +241,7 @@
         hoverCircle.style.height = '20px';
 
         setTimeout(() => {
-            hoverCircle.style.transition = width ${dwellTime}ms ease, height ${dwellTime}ms ease;
+            hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`;
             hoverCircle.style.width = '100px';
             hoverCircle.style.height = '100px';
         }, 0);
