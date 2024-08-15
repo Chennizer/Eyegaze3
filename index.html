@@ -41,12 +41,11 @@
             display: none;
             z-index: 10;
         }
-        #eagle-animation {
+        .animation-container {
             position: absolute;
             width: 300px; /* Increased size */
             display: none;
             z-index: 20;
-            animation: fly 5s linear infinite;
         }
         @keyframes fly {
             0% {
@@ -54,6 +53,17 @@
             }
             100% {
                 transform: translate(-50%, -50%) rotate(360deg) translateX(200px) rotate(-360deg);
+            }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
             }
         }
         #start-button {
@@ -86,7 +96,7 @@
             z-index: 15;
         }
         #video-container {
-            display: none; /* Hidden until the eagle animation ends */
+            display: none; /* Hidden until the animation ends */
             position: absolute;
             z-index: 25;
         }
@@ -126,7 +136,9 @@
 
 <div class="overlay" id="overlay"></div>
 
-<img id="eagle-animation" src="Images/eagle.png" alt="Eagle Flying">
+<div id="animation-container" class="animation-container">
+    <img id="continent-animation" src="" alt="Continent Animation">
+</div>
 
 <div id="video-container">
     <video id="end-video" controls>
@@ -149,7 +161,8 @@
     let hoverTimeout;
     let dwellTime = 1000; // Default dwell time in milliseconds
     const hoverCircle = document.getElementById('hover-circle');
-    const eagleAnimation = document.getElementById('eagle-animation');
+    const animationContainer = document.getElementById('animation-container');
+    const continentAnimation = document.getElementById('continent-animation');
     const mapContainer = document.getElementById('map-container');
     const overlay = document.getElementById('overlay');
     const startButton = document.getElementById('start-button');
@@ -161,32 +174,38 @@
         'north-america': {
             sound: 'Sounds/eagle-call.mp3',
             animation: 'fly 5s linear infinite',
-            video: 'Videos/north-america.mp4'
+            video: 'Videos/north-america.mp4',
+            image: 'Images/eagle.png' // Example image for animation
         },
         'south-america': {
             sound: 'Sounds/south-america-sound.mp3',
-            animation: 'fly 5s linear infinite', // Replace with actual animation
-            video: 'Videos/south-america.mp4'
+            animation: 'bounce 2s infinite', // Example bounce animation
+            video: 'Videos/south-america.mp4',
+            image: 'Images/south-america-image.png' // Example image for animation
         },
         'africa': {
             sound: 'Sounds/africa-sound.mp3',
-            animation: 'fly 5s linear infinite', // Replace with actual animation
-            video: 'Videos/africa.mp4'
+            animation: 'bounce 2s infinite', // Replace with actual animation
+            video: 'Videos/africa.mp4',
+            image: 'Images/africa-icon.png' // Example image for animation
         },
         'europe': {
             sound: 'Sounds/europe-sound.mp3',
             animation: 'fly 5s linear infinite', // Replace with actual animation
-            video: 'Videos/europe.mp4'
+            video: 'Videos/europe.mp4',
+            image: 'Images/europe-icon.png' // Example image for animation
         },
         'asia': {
             sound: 'Sounds/asia-sound.mp3',
             animation: 'fly 5s linear infinite', // Replace with actual animation
-            video: 'Videos/asia.mp4'
+            video: 'Videos/asia.mp4',
+            image: 'Images/asia-icon.png' // Example image for animation
         },
         'oceania': {
             sound: 'Sounds/oceania-sound.mp3',
-            animation: 'fly 5s linear infinite', // Replace with actual animation
-            video: 'Videos/oceania.mp4'
+            animation: 'bounce 2s infinite', // Replace with actual animation
+            video: 'Videos/oceania.mp4',
+            image: 'Images/oceania-icon.png' // Example image for animation
         }
     };
 
@@ -250,13 +269,16 @@
         overlay.style.display = 'block';
         mapContainer.style.display = 'none';
 
-        eagleAnimation.style.display = 'block';
-        eagleAnimation.style.animation = effect.animation;
+        // Set animation image and properties
+        continentAnimation.src = effect.image;
+        animationContainer.style.display = 'block';
+        animationContainer.style.animation = effect.animation;
+
         const sound = new Audio(effect.sound);
         sound.play();
 
         sound.onended = () => {
-            eagleAnimation.style.display = 'none';
+            animationContainer.style.display = 'none';
             playVideo(effect.video); // Play video after animation ends
         };
     }
