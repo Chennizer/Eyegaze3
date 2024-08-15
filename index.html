@@ -227,10 +227,23 @@
             return;
         }
 
+        // Preload all videos
+        preloadVideos();
+
         // Hide the control panel and show the map
         document.getElementById('control-panel').style.display = 'none';
         mapContainer.style.display = 'block';
         imageMapResize(); // Initialize the image map resizer
+    }
+
+    function preloadVideos() {
+        for (let continent in continentEffects) {
+            const video = document.createElement('video');
+            video.src = continentEffects[continent].video;
+            video.preload = 'auto';
+            document.body.appendChild(video); // Temporarily add to body to preload
+            video.style.display = 'none'; // Hide it from view
+        }
     }
 
     function startHover(event, continent) {
