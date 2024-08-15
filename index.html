@@ -105,8 +105,6 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            justify-content: center;
-            align-items: center;
         }
         video {
             max-width: 80%;
@@ -240,7 +238,7 @@
         hoverCircle.style.height = '20px';
 
         setTimeout(() => {
-            hoverCircle.style.transition = `width ${dwellTime}ms ease, height ${dwellTime}ms ease`;
+            hoverCircle.style.transition = width ${dwellTime}ms ease, height ${dwellTime}ms ease;
             hoverCircle.style.width = '100px';
             hoverCircle.style.height = '100px';
         }, 0);
@@ -293,7 +291,7 @@
 
     function playVideo(videoSrc) {
         videoSource.src = videoSrc;
-        videoContainer.style.display = 'flex'; // Show the video container
+        videoContainer.style.display = 'block'; // Show the video container
         endVideo.load(); // Load the new video source
         endVideo.play(); // Play the video
 
