@@ -34,7 +34,7 @@
         .circle {
             position: absolute;
             width: 20px; /* Start small */
-            height: 20px;
+            height: 20px; /* Start small */
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.5);
             pointer-events: none;
@@ -68,6 +68,14 @@
             60% {
                 transform: translateY(-15px);
             }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         #start-button {
             font-size: 24px;
@@ -126,15 +134,6 @@
             margin-bottom: 20px;
             max-width: 400px;
         }
-        .fade-out {
-            opacity: 0;
-            transition: opacity 1s ease-out;
-        }
-        .fade-in {
-            opacity: 1;
-            transition: opacity 1s ease-in;
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -147,7 +146,7 @@
     <button id="start-button" onclick="startGame()">Commencer :)</button>
 </div>
 
-<div class="map-container fade-in" id="map-container">
+<div class="map-container" id="map-container">
     <img src="Images/worldmap.jpg" usemap="#image-map" alt="World Map">
     <div id="hover-circle" class="circle"></div>
 </div>
@@ -158,7 +157,7 @@
     <img id="continent-animation" src="" alt="Continent Animation">
 </div>
 
-<div id="video-container" class="fade-out">
+<div id="video-container">
     <video id="end-video" controls>
         <source id="video-source" src="" type="video/mp4">
         Your browser does not support the video tag.
@@ -167,7 +166,11 @@
 
 <map name="image-map">
     <area target="" alt="NA" title="NA" href="#" coords="442,530,369,480,260,419,191,256,42,214,167,71,476,34,857,24" shape="poly" onmouseover="startHover(event, 'north-america')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
-    <!-- Add the rest of your areas here -->
+    <area target="" alt="SA" title="SA" href="#" coords="437,545,450,686,528,940,583,986,650,806,712,647,644,560,522,487" shape="poly" onmouseover="startHover(event, 'south-america')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <area target="" alt="Africa" title="Africa" href="#" coords="835,346,778,509,907,589,993,854,1161,774,1181,636,1154,582,1198,491,1064,362,949,322" shape="poly" onmouseover="startHover(event, 'africa')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <area target="" alt="EU" title="EU" href="#" coords="1273,63,983,25,818,241,834,339,912,316,1041,343,1103,297,1163,314,1236,221" shape="poly" onmouseover="startHover(event, 'europe')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <area target="" alt="Asia" title="Asia" href="#" coords="1899,137,1476,49,1271,83,1242,226,1175,316,1081,314,1085,375,1203,491,1326,535,1436,599,1521,657,1604,599" shape="poly" onmouseover="startHover(event, 'asia')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
+    <area target="" alt="OCE" title="OCE" href="#" coords="1743,608,1617,586,1522,718,1476,752,1482,857,1561,844,1607,928,1712,976,1783,905" shape="poly" onmouseover="startHover(event, 'oceania')" onmouseout="stopHover()" onmousemove="moveCircle(event)">
 </map>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/js/imageMapResizer.min.js"></script>
@@ -179,6 +182,7 @@
     const continentAnimation = document.getElementById('continent-animation');
     const mapContainer = document.getElementById('map-container');
     const overlay = document.getElementById('overlay');
+    const startButton = document.getElementById('start-button');
     const videoContainer = document.getElementById('video-container');
     const endVideo = document.getElementById('end-video');
     const videoSource = document.getElementById('video-source');
@@ -190,7 +194,36 @@
             video: 'Videos/north-america.mp4',
             image: 'Images/eagle.png' // Example image for animation
         },
-        // Add the rest of your continents here
+        'south-america': {
+            sound: 'Sounds/south-america-sound.mp3',
+            animation: 'bounce 2s infinite', // Example bounce animation
+            video: 'Videos/south-america.mp4',
+            image: 'Images/south-america-image.png' // Example image for animation
+        },
+        'africa': {
+            sound: 'Sounds/africa-sound.mp3',
+            animation: 'bounce 2s infinite', // Replace with actual animation
+            video: 'Videos/africa.mp4',
+            image: 'Images/africa-icon.png' // Example image for animation
+        },
+        'europe': {
+            sound: 'Sounds/europa-sound.wav',
+            animation: 'fly 5s linear infinite', // Replace with actual animation
+            video: 'Videos/europe.mp4',
+            image: 'Images/europa-image.png' // Example image for animation
+        },
+        'asia': {
+            sound: 'Sounds/asia-sound.mp3',
+            animation: 'fly 5s linear infinite', // Replace with actual animation
+            video: 'Videos/asia.mp4',
+            image: 'Images/asia-icon.png' // Example image for animation
+        },
+        'oceania': {
+            sound: 'Sounds/oceania-sound.mp3',
+            animation: 'bounce 2s infinite', // Replace with actual animation
+            video: 'Videos/oceania.mp4',
+            image: 'Images/oceania-icon.png' // Example image for animation
+        }
     };
 
     function startGame() {
@@ -287,29 +320,26 @@
         endVideo.play(); // Play the video
 
         endVideo.onended = () => {
-            resetToMapState(); // Reset after video ends
+            triggerFadeOut(); // Trigger the fade-out transition after video ends
         };
     }
 
-    function resetToMapState() {
-        // Fade out the video container
-        videoContainer.classList.add('fade-out');
+    function triggerFadeOut() {
+        overlay.style.animation = 'fadeOut 1s forwards'; // Apply fade-out effect
 
-        // Wait for the fade-out to complete
         setTimeout(() => {
-            videoContainer.style.display = 'none'; // Hide the video container
-            videoContainer.classList.remove('fade-out');
+            resetToMapState(); // Reset the state after the fade-out completes
+        }, 1000); // 1 second delay for the fade-out
+    }
 
-            // Fade in the map container
-            mapContainer.classList.add('fade-in');
-            overlay.style.display = 'none'; // Hide the overlay
-            mapContainer.style.display = 'block'; // Show the map container
+    function resetToMapState() {
+        // Hide video and overlay, show map again
+        videoContainer.style.display = 'none';
+        overlay.style.display = 'none';
+        mapContainer.style.display = 'block'; // Show map for next interaction
 
-            // Remove the fade-in class after the transition completes
-            setTimeout(() => {
-                mapContainer.classList.remove('fade-in');
-            }, 1000); // Adjust this time to match the transition duration
-        }, 1000); // Adjust this time to match the transition duration
+        // Reset fade-out effect
+        overlay.style.animation = ''; 
     }
 </script>
 
