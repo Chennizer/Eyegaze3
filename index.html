@@ -88,6 +88,11 @@
             width: 200px;
             margin-top: 20px;
         }
+        #title {
+            font-size: 48px; /* Large font size */
+            text-align: center;
+            margin-bottom: 40px; /* Space between title and instructions */
+        }
         .overlay {
             position: absolute;
             top: 0;
@@ -120,6 +125,8 @@
             position: absolute;
             z-index: 10;
             text-align: center;
+            top: 5%; /* Adjusted to position higher on the screen */
+            width: 100%;
         }
         #instructions {
             font-size: 18px;
@@ -131,7 +138,7 @@
 <body>
 
 <div id="control-panel">
-    <h1 id="title">Explorons le monde : carte interactive</h1>
+    <h1 id="title">Interactive World Map</h1> <!-- Title added here -->
     <div id="instructions">
         La durée du dwell click peut être ajustée dans la boîte ci-dessous. Pour cette activité, une valeur autour de 1500ms est suggérée. Appuyer sur F11 ou FN + F11 pour mettre la page en plein écran.
     </div>
@@ -183,7 +190,7 @@
     const continentEffects = {
         'north-america': {
             sound: 'Sounds/north-america-sound.mp3',
-            animation: 'bounce 2s infinite',
+            animation: 'bounce 2s infinite', // Example bounce animation
             video: 'Videos/north-america.mp4',
             image: 'Images/north-america-image.png' // Example image for animation
         },
